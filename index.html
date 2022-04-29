@@ -54,10 +54,9 @@
                 </tr>
                 </tbody>
             </table>
-            <div class="input-container">
+            <div class="input-container" id="input-container">
                 <input type="text" maxlength="5" minlength="5">
-                <button>Enter!</button>
-                <button id="restart">Restart</button>
+                <button id="submit">Enter!</button>
             </div>
             <p id="game-over"></p>
         </div>
@@ -66,10 +65,11 @@
 <script>
     let answer = "";
     let currentGuessNumber = 0;
+    let restartButton;
+    const inputContainer = document.getElementById('input-container');
     const board = document.getElementById('board');
     const textBox = document.querySelector('input');
-    const submitButton = document.querySelector('button');
-    const restartButton = document.getElementById('restart');
+    const submitButton = document.getElementById('submit');
     const gameOverMessage = document.getElementById('game-over');
     const answers = ['abuse', 'adult', 'agent', 'anger', 'apple', 'award', 'basis', 'beach', 'birth', 'block', 'blood', 'board', 'brain', 'bread', 'break', 'brown', 'buyer', 'cause', 'chain', 'chair', 'chest', 'chief', 'child', 'claim', 'class', 'clock', 'coach', 'coast', 'court', 'cover', 'cream', 'crime', 'cross', 'crowd', 'crown', 'cycle', 'dance', 'death', 'depth', 'doubt', 'draft', 'drama', 'dream', 'dress', 'drink', 'drive', 'earth', 'enemy', 'entry', 'error', 'event', 'faith', 'fault', 'field', 'fight', 'final', 'floor', 'focus', 'force', 'frame', 'front', 'fruit', 'glass', 'grant', 'grass', 'green', 'group', 'guide', 'heart', 'horse', 'hotel', 'house', 'image', 'index', 'input', 'issue', 'jokes', 'judge', 'knife', 'layer', 'level', 'light', 'limit', 'lunch', 'major', 'march', 'match', 'metal', 'model', 'money', 'month', 'motor', 'mouth', 'music', 'night', 'noise', 'north', 'novel', 'nurse', 'offer', 'order', 'other', 'owner', 'panel', 'paper', 'party', 'peace', 'peter', 'phase', 'phone', 'piece', 'pilot', 'pitch', 'place', 'plane', 'plant', 'plate', 'point', 'pound', 'power', 'press', 'price', 'pride', 'prize', 'proof', 'queen', 'radio', 'range', 'ratio', 'reply', 'right', 'river', 'round', 'route', 'rugby', 'scale', 'scene', 'scope', 'score', 'sense', 'shape', 'share', 'sheep', 'sheet', 'shift', 'shirt', 'shock', 'sight', 'skill', 'sleep', 'smile', 'smoke', 'sound', 'south', 'space', 'speed', 'spite', 'sport', 'squad', 'staff', 'stage', 'start', 'state', 'steam', 'steel', 'stock', 'stone', 'store', 'study', 'stuff', 'style', 'sugar', 'table', 'taste', 'terry', 'theme', 'thing', 'title', 'total', 'touch', 'tower', 'track', 'trade', 'train', 'trend', 'trial', 'trust', 'truth', 'uncle', 'union', 'unity', 'visit', 'voice', 'waste', 'watch', 'water', 'while', 'white', 'whole', 'woman', 'world', 'youth'];
 
@@ -80,16 +80,6 @@
     }
 
     selectAnswer();
-
-    // todo ASK HOW TO CLEAR BOARD AND RE-ADD BUTTONS
-    restartButton.addEventListener('click', function(e) {
-        board.children.innerHTML = "";
-        gameOverMessage.innerHTML = "";
-        currentGuessNumber = 0;
-        selectAnswer();
-        submitButton.add();
-        textBox.add();
-    })
 
     submitButton.addEventListener('click', function(e) {
         let guess = textBox.value;
@@ -109,6 +99,15 @@
             gameOverMessage.textContent = 'You won!';
             submitButton.remove();
             textBox.remove();
+            restartButton = document.createElement('button');
+            inputContainer.insertAdjacentElement('beforeend', restartButton);
+            restartButton.innerHTML = 'Restart';
+            restartButton.addEventListener('click', function(e) {
+                location.reload();
+                gameOverMessage.innerHTML = "";
+                currentGuessNumber = 0;
+                selectAnswer();
+            })
             return;
         }
 
@@ -117,6 +116,15 @@
             gameOverMessage.textContent = `You lost :( The word was ${answer}.`;
             submitButton.remove();
             textBox.remove();
+            restartButton = document.createElement('button');
+            inputContainer.insertAdjacentElement('beforeend', restartButton);
+            restartButton.innerHTML = 'Restart';
+            restartButton.addEventListener('click', function(e) {
+                location.reload();
+                gameOverMessage.innerHTML = "";
+                currentGuessNumber = 0;
+                selectAnswer();
+            })
             return;
         }
     })
